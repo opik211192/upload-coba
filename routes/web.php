@@ -20,4 +20,9 @@ Route::get('/', function () {
 });
 
 Route::get('/upload', [UploadController::class, 'index'])->name('upload.index');
+Route::get('/upload/create', [UploadController::class, 'create'])->name('upload.create');
 Route::post('/upload', [UploadController::class, 'store'])->name('upload.store');
+Route::get('upload/edit/{id}',[UploadController::class, 'edit'])->name('upload.edit');
+
+//kalu menggunakan eloquent samakan sama yg ada di controller
+Route::post('upload/update/{upload}',[UploadController::class, 'update'])->name('upload.update');

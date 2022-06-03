@@ -4,33 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Index</title>
 </head>
 <body>
-    <form action="{{ route('upload.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <label for="judul_arsip">Judul Arsip</label>
-        <input type="text" id="judul_arsip" name="judul_arsip">
-        <br><br>
-        <label for="jenis_arsip">Jenis Arsip</label>
-        <input type="text" name="jenis_arsip" id="jenis_arsip">
-        <br><br>
-        <label for="no_berkas">No Berkas</label>
-        <input type="text" id="no_berkas" name="no_berkas">
-        <br><br>
-        <label for="pencipta_arsip">Pencipta Arsip</label>
-        <input type="text" id="pencipta_arsip" name="pencipta_arsip">
-        <br><br>
-        <label for="tahun">Tahun</label>
-        <input type="number" name="tahun" id="tahun">
-        <br><br>
-        <label for="user_id">User</label>
-        <input type="text" name="user_id" id="user_id" value="{{ $user->id }}">
-        <br><br>
-        <label for="filename">File Upload</label>
-        <input type="file" name="filename" id="filename">
-        <br><br>
-        <button type="submit">Simpan</button>
-    </form>
+   <a href="{{ route('upload.create') }}">Tambah Data</a>
+   <br><br>
+   <table border="1">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Judul Arsip</th>
+            <th>Jenis Arsip</th>
+            <th>No berkas</th>
+            <th>Pencipta Arsip</th>
+            <th>Tahun</th>
+            <th>File</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+            @foreach ($uploads as $upload)
+            <tr>
+                <td>{{$loop->iteration}}</td>
+                <td>{{ $upload->judul_arsip }}</td>
+                <td>{{ $upload->jenis_arsip }}</td>
+                <td>{{ $upload->no_berkas }}</td>
+                <td>{{ $upload->pencipta_arsip }}</td>
+                <td>{{ $upload->tahun }}</td>
+                <td>{{ $upload->filename }}</td>
+                <td>
+                    <a href="{{ route('upload.edit', $upload->id) }}">Edit</a>
+                </td>
+            </tr>
+            @endforeach
+    </tbody>
+   </table>
 </body>
 </html>

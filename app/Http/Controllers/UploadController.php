@@ -16,9 +16,8 @@ class UploadController extends Controller
     public function index()
     {   //jika login
         //$user = auth()->user()->id;
-
-        $user = User::find(2);
-        return view('upload.index', compact('user'));
+        $uploads = Upload::all();
+        return view('upload.index', compact('uploads'));
     }
 
     /**
@@ -26,9 +25,10 @@ class UploadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create() 
     {
-        //
+        $user = User::find(2);
+        return view('upload.create', compact('user'));
     }
 
     /**
@@ -51,16 +51,29 @@ class UploadController extends Controller
 
        
        $extFile = $request->filename->getClientOriginalExtension();
-       $namaFile = time()."-".$request->filename->getClientOriginalName();
+       $namaFile = time()."-".str_replace(' ', '-', $request->filename->getClientOriginalName());
 
-       dump($namaFile);
+       //dump($validateData);
 
        //buat folder per user
-    //    $foldeUser = User::find(2)->name;
-    //    $request->filename->move($foldeUser, $namaFile);
+       $foldeUser = User::find(2)->name;
+       $request->filename->move($foldeUser, $namaFile);
 
-    //    Upload::create($validateData);
-       //dump($validateData);
+    //    $upload = new Upload;
+    //    $upload->judul_arsip = $validateData['judul_arsip'];
+    //    $upload->jenis_arsip = $validateData['jenis_arsip'];
+    //    $upload->no_berkas = $validateData['no_berkas'];
+    //    $upload->pencipta_arsip = $validateData['pencipta_arsip'];
+    //    $upload->tahun = $validateData['tahun'];
+    //    $upload->user_id = $validateData['user_id'];
+    //    $upload->filename = $namaFile;
+    //    $upload->save();
+       $validateData['filename'] = $namaFile;
+
+       Upload::create($validateData);
+
+       return "Berhasil Disimpan";
+       
     }
 
     /**
@@ -80,9 +93,10 @@ class UploadController extends Controller
      * @param  \App\Models\Upload  $upload
      * @return \Illuminate\Http\Response
      */
-    public function edit(Upload $upload)
-    {
-        //
+    public function edit($id)
+    {   
+        $upload = Upload::find($id);
+        return view('upload.edit', compact('upload'));
     }
 
     /**
@@ -94,7 +108,18 @@ class UploadController extends Controller
      */
     public function update(Request $request, Upload $upload)
     {
-        //
+        
+        dump($request->all());
+        dump($upload);
+        $data = Upload::find($upload->id);
+        $folder = $data->user->name;
+        dump($folder);
+        
+        if ($request->hasFile('filename')) {
+            
+        }else{
+            $namafile = $upload->filename;
+        } 
     }
 
     /**
